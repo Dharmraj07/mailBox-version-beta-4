@@ -17,7 +17,7 @@ const apiCall = async (url, data, rejectWithValue, method = "POST") => {
 // Async thunks
 export const signup = createAsyncThunk(
   "auth/signup",
-  async ({ email, password }, { rejectWithValue }) =>
+  async ({ email, password,username }, { rejectWithValue }) =>
     apiCall(`${API_BASE_URL}/signup`, { email, password }, rejectWithValue)
 );
 

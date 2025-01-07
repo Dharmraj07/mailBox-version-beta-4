@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../redux/authSlice";
 
-
 const SignUp = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "", username: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { status, error } = useSelector((state) => state.auth);
@@ -17,6 +16,12 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic form validation
+    if (!formData.email || !formData.password || !formData.username) {
+      return alert("Please fill in all fields.");
+    }
+
     const result = await dispatch(signup(formData));
     if (signup.fulfilled.match(result)) {
       navigate("/signin"); // Redirect to SignIn after successful signup
@@ -27,6 +32,18 @@ const SignUp = () => {
     <div className="container mt-5">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="username" className="form-label">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            className="form-control"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email</label>
           <input
